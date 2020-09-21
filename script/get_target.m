@@ -1,6 +1,6 @@
 function target = get_target(task_name,electrode_position,electrode_number)
 
-for i = 1:length(electrode_position)
+for i = 1:size(electrode_position,1)
     target = zeros(1,electrode_number);
     is_task = 0;
     if strcmp(electrode_position{i,1},...
@@ -12,7 +12,7 @@ for i = 1:length(electrode_position)
 end
 
 if ~is_task
-    for i = 1:length(electrode_position)
+    for i = 1:size(electrode_position,1)
         target(electrode_position{i,2}) = i;
     end
 end

@@ -17,9 +17,9 @@ function ECoG_segment = get_segment(mark,task_name,edf_file_name)
     ECoG = pop_reref( ECoG, []);
     ECoG = eeg_checkset( ECoG );
     ECoG = pop_eegfiltnew(ECoG, 'locutoff',49,'hicutoff',51,'revfilt',1,'plotfreqz',1);
-    ECoG = pop_eegfiltnew(ECoG, 'locutoff',99,'hicutoff',101,'revfilt',1,'plotfreqz',1);
-    ECoG = pop_eegfiltnew(ECoG, 'locutoff',1,'hicutoff',128,'plotfreqz',1);
-    ECoG = eeg_checkset( ECoG );
+%     ECoG = pop_eegfiltnew(ECoG, 'locutoff',99,'hicutoff',101,'revfilt',1,'plotfreqz',1);
+%     ECoG = pop_eegfiltnew(ECoG, 'locutoff',1,'hicutoff',128,'plotfreqz',1);
+%     ECoG = eeg_checkset( ECoG );
     ECoG = pop_rmbase( ECoG, [],[]);
     ECoG = eeg_checkset( ECoG );
 

@@ -152,22 +152,22 @@ task_name = {'static1','hand1','talk1','name1','name2','talk2','hand2',...
 
 %%
 %ARÆ×
-ORDER=10;NFFT=2^14;Fs=500;
+ORDER=20;NFFT=2^14;Fs=500;
 name3_pxx=[];talk3_pxx=[];hand3_pxx=[];static3_pxx=[];
 for i=1:8
-x=ECoG_segment.name3.data(i,:);
+x=data_set(3).segment(12).data(i,:);
 [Pxx,W]=pyulear(x,ORDER,NFFT,Fs);
 name3_pxx=[name3_pxx;Pxx'];
 
-x=ECoG_segment.talk3.data(i,:);
+x=data_set(3).segment(11).data(i,:);
 [Pxx,W]=pyulear(x,ORDER,NFFT,Fs);
 talk3_pxx=[talk3_pxx;Pxx'];
 
-x=ECoG_segment.hand3.data(i,:);
+x=data_set(3).segment(10).data(i,:);
 [Pxx,W]=pyulear(x,ORDER,NFFT,Fs);
 hand3_pxx=[hand3_pxx;Pxx'];
 
-x=ECoG_segment.static3.data(3,:);
+x=data_set(3).segment(9).data(i,:);
 [Pxx,W]=pyulear(x,ORDER,NFFT,Fs);
 static3_pxx=[static3_pxx;Pxx'];
 end
@@ -178,7 +178,7 @@ plot(W,[static3_pxx(i,:);hand3_pxx(i,:);talk3_pxx(i,:);name3_pxx(i,:)]);
 legend('static3','hand3','talk3','name3');
 title(['µ¼Áª' num2str(i) 'ARÆµÆ×']);
 grid on
-axis([0,50,0,200]);
+axis([0,120,0,100]);
 end
 
 

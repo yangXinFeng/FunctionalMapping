@@ -1,6 +1,6 @@
 freq_band_tags=[2 4 8 14 30 45 65 95];
 freq_cohere_metrix=[];
-data=ECoG_segment.hand1.data';
+data=data_set(3).segment(10).data';
 for c=1:min(size(data))
     [Cxy,F] = mscohere(data(:,c),data,[],[],2^13,500);  
     for n=1:length(freq_band_tags)
@@ -37,10 +37,10 @@ twom = sum(k);
 B = full(A - gamma*k'*k/twom);
 [S,Q] = genlouvain(B);
 Q = Q/twom;
-for i=1:8
-    m=i==S;
+for ii=1:length(S)
+    m=S(ii)==S;
     if(sum(m)==1) 
-        S(i)=0;
+        S(ii)=0;
     end
 end
  
