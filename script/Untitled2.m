@@ -152,24 +152,29 @@ task_name = {'static1','hand1','talk1','name1','name2','talk2','hand2',...
 
 %%
 %ARÆ×
-ORDER=20;NFFT=2^14;Fs=500;
+% ORDER=20;
+NFFT=2^14;Fs=500;
 name3_pxx=[];talk3_pxx=[];hand3_pxx=[];static3_pxx=[];
 for i=1:8
 x=data_set(3).segment(12).data(i,:);
+[~,~,~,ORDER] = arburgwithcriterion( x','AIC' );
 [Pxx,W]=pyulear(x,ORDER,NFFT,Fs);
-name3_pxx=[name3_pxx;Pxx'];
+name3_pxx=[name3_pxx;log(Pxx')];
 
 x=data_set(3).segment(11).data(i,:);
+[~,~,~,ORDER] = arburgwithcriterion( x','AIC' );
 [Pxx,W]=pyulear(x,ORDER,NFFT,Fs);
-talk3_pxx=[talk3_pxx;Pxx'];
+talk3_pxx=[talk3_pxx;log(Pxx')];
 
 x=data_set(3).segment(10).data(i,:);
+[~,~,~,ORDER] = arburgwithcriterion( x','AIC' );
 [Pxx,W]=pyulear(x,ORDER,NFFT,Fs);
-hand3_pxx=[hand3_pxx;Pxx'];
+hand3_pxx=[hand3_pxx;log(Pxx')];
 
 x=data_set(3).segment(9).data(i,:);
+[~,~,~,ORDER] = arburgwithcriterion( x','AIC' );
 [Pxx,W]=pyulear(x,ORDER,NFFT,Fs);
-static3_pxx=[static3_pxx;Pxx'];
+static3_pxx=[static3_pxx;log(Pxx')];
 end
 figure;
 for i=1:8
@@ -178,7 +183,7 @@ plot(W,[static3_pxx(i,:);hand3_pxx(i,:);talk3_pxx(i,:);name3_pxx(i,:)]);
 legend('static3','hand3','talk3','name3');
 title(['µ¼Áª' num2str(i) 'ARÆµÆ×']);
 grid on
-axis([0,120,0,100]);
+axis([-5,120,-5,10]);
 end
 
 

@@ -62,23 +62,23 @@ for subject_number=3:3%length(data_set)
 %     %         dendrogram(Z);%显示系统聚类树
 %             T=cluster(Z,'maxclust',cluster_class);
 %             
-            gamma = 1;
-            A=sl;
-            A=floor(1/max(squareform(A.*not(eye(size(A))))))*A.*not(eye(size(A)))+eye(size(A));
-            %A=squareform((1+mapminmax(squareform(A.*not(eye(size(A))))))/2)+eye(size(A));
-            k = full(sum(A));
-            twom = sum(k);
-            B = full(A - gamma*k'*k/twom);
-            [S,Q] = genlouvain(B);
-            Q = Q/twom;
-            disp(S')
-            for ii=1:length(S)
-                m=S(ii)==S;
-                if(sum(m)==1) 
-                    S(ii)=0;
-                end
-            end
-
+%             gamma = 1;
+%             A=sl;
+%             A=floor(1/max(squareform(A.*not(eye(size(A))))))*A.*not(eye(size(A)))+eye(size(A));
+%             %A=squareform((1+mapminmax(squareform(A.*not(eye(size(A))))))/2)+eye(size(A));
+%             k = full(sum(A));
+%             twom = sum(k);
+%             B = full(A - gamma*k'*k/twom);
+%             [S,Q] = genlouvain(B);
+%             Q = Q/twom;
+%             disp(S')
+%             for ii=1:length(S)
+%                 m=S(ii)==S;
+%                 if(sum(m)==1) 
+%                     S(ii)=0;
+%                 end
+%             end
+            S = spectralcluster(sl,2,'Distance','precomputed','LaplacianNormalization','symmetric');
             disp(['第' num2str(i) '层小波系数聚类结果：']);
             disp(S');
             

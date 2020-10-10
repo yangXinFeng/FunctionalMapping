@@ -1,5 +1,5 @@
 %get segment from raw datas
-function ECoG_segment = get_segment(mark,task_name,edf_file_name)
+function ECoG_segment = get_segment(mark,task_name,edf_file_name,band,iscut)
     % DESCRIPTION
     % input: 
     % mark--mark time, for instance:[10 54 36;10 55 23;10 55 33;10 57 13;...]
@@ -16,9 +16,24 @@ function ECoG_segment = get_segment(mark,task_name,edf_file_name)
     ECoG = pop_biosig(edf_file_name);
     ECoG = pop_reref( ECoG, []);
     ECoG = eeg_checkset( ECoG );
-    ECoG = pop_eegfiltnew(ECoG, 'locutoff',49,'hicutoff',51,'revfilt',1,'plotfreqz',1);
-%     ECoG = pop_eegfiltnew(ECoG, 'locutoff',99,'hicutoff',101,'revfilt',1,'plotfreqz',1);
-%     ECoG = pop_eegfiltnew(ECoG, 'locutoff',1,'hicutoff',128,'plotfreqz',1);
+    low_band = band(1);
+    high_band = band(2);
+    if ismember(50,[ceil(low_band):floor(high_band)])
+        disp('cutoff 50hz');
+        ECoG = pop_eegfiltnew(ECoG, 'locutoff',49,'hicutoff',51,'revfilt',1,'plotfreqz',1);
+    end
+    if ismember(100,[ceil(low_band):floor(high_band)])
+        disp('cutoff 100hz');
+        ECoG = pop_eegfiltnew(ECoG, 'locutoff',99,'hicutoff',101,'revfilt',1,'plotfreqz',1);
+    end
+    if ismember(150,[ceil(low_band):floor(high_band)])
+        disp('cutoff 150hz');
+        ECoG = pop_eegfiltnew(ECoG, 'locutoff',149,'hicutoff',151,'revfilt',1,'plotfreqz',1);
+    end
+    if iscut
+        disp(['cutoff ' num2str(low_band) ' to ' num2str(high_band)]);
+        ECoG = pop_eegfiltnew(ECoG, 'locutoff',low_band,'hicutoff',high_band,'plotfreqz',1);
+    end
 %     ECoG = eeg_checkset( ECoG );
     ECoG = pop_rmbase( ECoG, [],[]);
     ECoG = eeg_checkset( ECoG );
@@ -35,8 +50,8 @@ function ECoG_segment = get_segment(mark,task_name,edf_file_name)
             [~,i]=sort(abs(ECoG.times-tags(n)*1000));
             index(n)=i(1);
         end
-        disp('--index:--')
-        disp(index)
+%         disp('--index:--')
+%         disp(index)
         for n=1:length(index)/2
             ECoG_segment(n).data=ECoG.data(:,index(2*n-1):index(2*n));
             ECoG_segment(n).task_name=task_name{n};

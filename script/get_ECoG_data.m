@@ -1,5 +1,6 @@
 % get ECoG data set and segment by task
-clc;clear;
+function data_set=get_ECoG_data(band,iscut,is_save)
+% clc;clear;
 % DESCRIPTION
 % input mark_file path
 % output {mark status,mark time}
@@ -37,7 +38,7 @@ electrode_position={chenkai_target;weijie_target;daiyou_target};
 
 %%
 % Get data set and segment by task form *.edf file and corresponding Mark.txt
-data_set={};
+data_set=[];
 for subject_number=1:length(subject_name)
     data_set(subject_number).subject_name=subject_name{subject_number};
     data_set(subject_number).mark_file_path=mark_file_path{subject_number};
@@ -54,7 +55,7 @@ for subject_number=1:length(subject_name)
             mark_name(i,1)={[strtrim(require_mark{2*i-1,1}),'--',strtrim(require_mark{2*i,1})]};
         end
 
-        data_set(subject_number).segment=get_segment(mark_time,mark_name,edf_file_path{subject_number});
+        data_set(subject_number).segment=get_segment(mark_time,mark_name,edf_file_path{subject_number},band,iscut);
     end
 end
 
@@ -63,5 +64,7 @@ end
 data_set(3).segment(13)=[];
 
 % save data set
-file_name = ['data_set_' datestr(now,'yy_mm_dd')];
-save(file_name,'data_set');
+if is_save
+    file_name = ['data_set_' datestr(now,'yy_mm_dd')];
+    save(file_name,'data_set');
+end

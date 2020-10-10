@@ -1,5 +1,5 @@
 % analyse with mscohere
-freq_band_tags = [2 4 8 14 30 45 65 95];
+freq_band_tags = [2 4 8 14 30 45 65 120];
 mscohere_set = [];
 mscohere_set_number = 0;
 
@@ -37,18 +37,19 @@ for subject_number=1:length(data_set)
         for level=1:6
             gamma = 1;
             A=double(all_matrix{level});
-            A=floor(1/max(squareform(A.*not(eye(size(A))))))*A.*not(eye(size(A)))+eye(size(A));
-            k = full(sum(A));
-            twom = sum(k);
-            B = full(A - gamma*k'*k/twom);
-            [S,Q] = genlouvain(B);
-            Q = Q/twom;
-            for ii=1:length(S)
-                m=S(ii)==S;
-                if(sum(m)==1) 
-                    S(ii)=0;
-                end
-            end
+%             A=floor(1/max(squareform(A.*not(eye(size(A))))))*A.*not(eye(size(A)))+eye(size(A));
+%             k = full(sum(A));
+%             twom = sum(k);
+%             B = full(A - gamma*k'*k/twom);
+%             [S,Q] = genlouvain(B);
+%             Q = Q/twom;
+%             for ii=1:length(S)
+%                 m=S(ii)==S;
+%                 if(sum(m)==1) 
+%                     S(ii)=0;
+%                 end
+%             end
+            S = spectralcluster(A,2,'Distance','precomputed','LaplacianNormalization','symmetric');
             disp(S');
 
             mscohere_set_number = mscohere_set_number+1;
